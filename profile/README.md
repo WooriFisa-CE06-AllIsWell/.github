@@ -53,17 +53,18 @@ Apache Guacamole을 통해 브라우저에서 바로 SSH 접속이 가능하다.
 
 ---
 
-### Virtual Switch Layout
+### ESXI Host Virtual Switch Layout
 
-| vSwitch | Connected Port Group | Role |
-|------|------|------|
-| vSwitch0 | Management Network, NTP | ESXi 관리 및 기본 인프라 서비스 |
-| vSwitch-internet | Internet | 외부 접속 및 인터넷 연결 |
-| vSwitch1 | Shared-Storage | 스토리지 전용 통신 |
-| vSwitch2 | VM-User-Traffic | 사용자 VM 및 서비스 트래픽 |
-| vSwitch3 | VMotion | ESXi Host 간 VM 마이그레이션 |
-| vSwitch4 | vSAN-Network | vSAN 클러스터 내부 통신 |
-| vSwitch5 | LogDB | 로그 저장 및 수집용 네트워크 |
+| vSwitch | Network Name | CIDR | Role | MTU |
+| --- | --- | --- | --- | --- |
+| vSwitch0 | Internet | 192.168.0.0/24 | 외부 접속 및 인터넷 연결 | 1500 |
+|  | NTP | 172.18.0.0/20 | NTP서버 연결 및 vCenter 연동 | 1500 |
+|  | Shared-Storage | 172.18.16.0/20 | NFS 기반 공유 스토리지 통신 | 1500 |
+|  | VM-User-Traffic | 172.18.48.0/20 | 사용자 VM 및 서비스 트래픽 처리 | 1500 |
+|  | vSAN | 172.18.64.0/20 | vSAN 클러스터 내부 스토리지 통신 | 1500 |
+|  | LogDB | 172.18.80.0/20 | 로그 저장 및 수집 데이터 전송 | 1500 |
+|  | Management | 172.18.0.0/20 | ESXi Host 관리 트래픽 처리 | 1500 |
+| vSwitch1 | VMotion | 172.18.32.0/20 | ESXi Host 간 VM 마이그레이션 | 9000 |
 
 ---
 
