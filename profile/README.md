@@ -155,6 +155,29 @@ Apache Guacamole을 통해 브라우저에서 바로 SSH 접속이 가능하다.
 
 ---
 
+## 9. 🎬 Demo
+ 
+DRS(Distributed Resource Scheduler) 기반의 자동 부하 분산 시나리오를 시연한다.  
+VM에 CPU 부하를 인위적으로 발생시켜 DRS가 자동으로 마이그레이션을 수행하고  
+클러스터 리소스 불균형을 해소하는 전체 흐름을 확인할 수 있다.
+ 
+<video src="https://github.com/user-attachments/assets/672ea273-c0d5-4355-a2cd-f3ca730a0431" controls width="100%"></video>
+ 
+---
+ 
+### 시연 흐름
+ 
+| 단계 | 내용 |
+|:---:|------|
+| 1️⃣ | **VM CPU 부하 발생** — 특정 VM에 CPU 스트레스 테스트 적용 |
+| 2️⃣ | **호스트 CPU 사용량 급증** — 해당 ESXi 호스트의 CPU 사용률 임계치 초과 |
+| 3️⃣ | **DRS 점수 하락 확인** — vCenter에서 클러스터 DRS 불균형 점수 확인 |
+| 4️⃣ | **DRS 자동화 수준 변경** — DRS 모드를 수동에서 완전 자동화로 전환 |
+| 5️⃣ | **DRS 자동 마이그레이션 실행 및 경보 발생** — vMotion을 통한 VM 자동 이동 및 알림 확인 |
+| 6️⃣ | **리소스 불균형 해소** — 마이그레이션 완료 후 호스트 간 CPU 부하 균등 분산 확인 |
+ 
+---
+
 ## 10. 📂 Project Structure
 
 ```bash
