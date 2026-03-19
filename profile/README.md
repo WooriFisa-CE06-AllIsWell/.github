@@ -3,19 +3,15 @@
 > VMware vSphere 기반 가상화 환경에서 VM 생성, 접속, 반납을 웹으로 통합 제공하는 프라이빗 클라우드형 프로비저닝 플랫폼 
 
 ## 1. 📖 Overview
-FWS (Four Guys Web Service)는 VMware vSphere 기반 가상화 인프라 위에서
-가상머신을 온디맨드로 생성하고, 웹 브라우저를 통해 즉시 접속할 수 있도록 제공하는
-가상머신 프로비저닝 플랫폼이다.
+FWS(Four Guys Web Service)는 VMware vSphere 기반 가상화 인프라에서 사용자 요청에 따라 가상머신을 동적으로 생성하고, 웹 브라우저를 통해 즉시 접속할 수 있도록 지원하는 VM 프로비저닝 플랫폼이다.
 
-사용자는 별도의 복잡한 설정 없이 웹 인터페이스에서
-OS, CPU, Memory, Storage를 선택하여 VM을 생성할 수 있으며,
-Apache Guacamole을 통해 브라우저에서 바로 SSH 접속이 가능하다.
+사용자는 웹 인터페이스를 통해 OS, CPU, Memory, Storage를 선택하여 VM을 생성할 수 있으며,
+생성된 VM은 Apache Guacamole을 통해 웹 브라우저에서 SSH 방식으로 즉시 접속하여 운용할 수 있다.
 
 사용이 끝난 VM은 반납 시 자동으로 삭제되어
 클러스터 자원을 효율적으로 재사용할 수 있다.
 
-본 시스템은 vCenter, ESXi, vSAN, vMotion, DRS, HA 기반의 가상화 인프라 위에 구축되었으며,  
-프라이빗 클라우드 형태의 VM 운영 환경 제공을 목표로 한다.
+본 시스템은 vCenter 기반의 통합 관리 환경 아래 ESXi, vSAN, vMotion, DRS, HA 등의 VMware 핵심 기능을 활용하여 구축되었으며, 프라이빗 클라우드형 VM 운영 환경 제공을 목표로 한다.
 
 ---
 
