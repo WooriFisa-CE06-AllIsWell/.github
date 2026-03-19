@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 560" width="820" height="560" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <style>
+      .title { font-size: 13px; font-weight: 700; fill: #1a1a1a; }
+      .tag   { font-size: 10px; font-weight: 600; fill: #888; letter-spacing: 0.05em; }
+      .prob  { font-size: 11px; fill: #c0392b; }
+      .sol   { font-size: 11px; fill: #1a7a4a; }
+      .badge { font-size: 10px; font-weight: 600; }
+      .dep-text { font-size: 10px; fill: #888; }
+      .dep-chip-text { font-size: 10px; fill: #555; font-weight: 500; }
+      .sec-title { font-size: 14px; font-weight: 700; fill: #1a1a1a; }
+      .sec-sub { font-size: 11px; fill: #888; }
+      .vlan-label { font-size: 9px; font-weight: 600; fill: #fff; }
+      .vswitch-label { font-size: 10px; font-weight: 700; fill: #555; }
+      .vs-port-text { font-size: 9px; fill: #333; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="820" height="560" fill="#f8f8f8" rx="12"/>
+
+  <!-- Header -->
+  <text class="sec-title" x="30" y="38">⚙️ Infrastructure Design &amp; Technology Choices</text>
+  <text class="sec-sub" x="30" y="56">문제 → 기술 선택 → 적용 방식</text>
+
+  <!-- Dependency row -->
+  <rect x="30" y="66" width="760" height="28" rx="6" fill="#efefef"/>
+  <text class="dep-text" x="46" y="83">의존 관계</text>
+
+  <!-- dep chips -->
+  <rect x="120" y="71" width="44" height="18" rx="4" fill="#dbeafe"/>
+  <text class="dep-chip-text" x="142" y="83" text-anchor="middle" fill="#1e40af">vSAN</text>
+  <text class="dep-text" x="168" y="83">→</text>
+  <rect x="178" y="71" width="32" height="18" rx="4" fill="#dcfce7"/>
+  <text class="dep-chip-text" x="194" y="83" text-anchor="middle" fill="#166534">HA</text>
+  <text class="dep-text" x="214" y="83">+</text>
+  <rect x="224" y="71" width="52" height="18" rx="4" fill="#dcfce7"/>
+  <text class="dep-chip-text" x="250" y="83" text-anchor="middle" fill="#166534">vMotion</text>
+  <text class="dep-text" x="280" y="83">→</text>
+  <rect x="290" y="71" width="34" height="18" rx="4" fill="#fef9c3"/>
+  <text class="dep-chip-text" x="307" y="83" text-anchor="middle" fill="#854d0e">DRS</text>
+  <text class="dep-text" x="340" y="83">    NFS / Network Seg. 는 독립 구성</text>
+
+  <!-- ========== ROW 1 ========== -->
+
+  <!-- Card 1: vSAN -->
+  <rect x="30" y="104" width="242" height="176" rx="10" fill="#fff" stroke="#e0e0e0" stroke-width="1"/>
+  <rect x="30" y="104" width="242" height="5" rx="5" fill="#3b82f6"/>
+  <rect x="30" y="107" width="242" height="2" fill="#3b82f6"/>
+  <!-- 기반 badge -->
+  <rect x="212" y="114" width="48" height="16" rx="4" fill="#dbeafe"/>
+  <text class="badge" x="236" y="125" text-anchor="middle" fill="#1e40af">기반</text>
+  <text class="tag" x="44" y="124">STORAGE</text>
+  <text class="title" x="44" y="141">vSAN</text>
+  <line x1="30" y1="150" x2="272" y2="150" stroke="#f0f0f0" stroke-width="1"/>
+  <text class="prob" x="44" y="168">✕  외부 스토리지 장비 없음</text>
+  <text class="sol"  x="44" y="186">✓  로컬 디스크 → 클러스터 공유 풀</text>
+  <text class="sol"  x="44" y="202">✓  HA·vMotion·DRS 동작 기반 확보</text>
+  <text x="44" y="222" font-size="10" fill="#aaa">각 ESXi의 로컬 SSD를 통합</text>
+  <text x="44" y="236" font-size="10" fill="#aaa">단일 Datastore로 클러스터 공유</text>
+  <text x="44" y="268" font-size="1" fill="none">.</text>
+
+  <!-- Card 2: HA -->
+  <rect x="289" y="104" width="242" height="176" rx="10" fill="#fff" stroke="#e0e0e0" stroke-width="1"/>
+  <rect x="289" y="104" width="242" height="5" rx="5" fill="#22c55e"/>
+  <rect x="289" y="107" width="242" height="2" fill="#22c55e"/>
+  <rect x="461" y="114" width="58" height="16" rx="4" fill="#f0fdf4"/>
+  <text class="badge" x="490" y="125" text-anchor="middle" fill="#166534">vSAN 필요</text>
+  <text class="tag" x="303" y="124">AVAILABILITY</text>
+  <text class="title" x="303" y="141">HA (High Availability)</text>
+  <line x1="289" y1="150" x2="531" y2="150" stroke="#f0f0f0" stroke-width="1"/>
+  <text class="prob" x="303" y="168">✕  Host 장애 시 VM 전체 중단</text>
+  <text class="sol"  x="303" y="186">✓  장애 감지 → 다른 Host에서 재시작</text>
+  <text class="sol"  x="303" y="202">✓  복구 실패 시 vCenter 알람 발송</text>
+  <text x="303" y="222" font-size="10" fill="#aaa">장애 자동 감지 + 복구 실패까지</text>
+  <text x="303" y="236" font-size="10" fill="#aaa">관리자에게 즉시 통보</text>
+
+  <!-- Card 3: vMotion -->
+  <rect x="548" y="104" width="242" height="176" rx="10" fill="#fff" stroke="#e0e0e0" stroke-width="1"/>
+  <rect x="548" y="104" width="242" height="5" rx="5" fill="#22c55e"/>
+  <rect x="548" y="107" width="242" height="2" fill="#22c55e"/>
+  <rect x="720" y="114" width="58" height="16" rx="4" fill="#f0fdf4"/>
+  <text class="badge" x="749" y="125" text-anchor="middle" fill="#166534">vSAN 필요</text>
+  <text class="tag" x="562" y="124">MIGRATION</text>
+  <text class="title" x="562" y="141">vMotion</text>
+  <line x1="548" y1="150" x2="790" y2="150" stroke="#f0f0f0" stroke-width="1"/>
+  <text class="prob" x="562" y="168">✕  VM 이동 = 서비스 중단</text>
+  <text class="sol"  x="562" y="186">✓  실행 상태 그대로 무중단 이전</text>
+  <text class="sol"  x="562" y="202">✓  DRS 자동 재배치·유지보수에 활용</text>
+  <text x="562" y="222" font-size="10" fill="#aaa">vSAN 공유 스토리지 덕분에</text>
+  <text x="562" y="236" font-size="10" fill="#aaa">디스크 이동 없이 메모리만 이전</text>
+
+  <!-- ========== ROW 2 ========== -->
+
+  <!-- Card 4: DRS -->
+  <rect x="30" y="296" width="242" height="176" rx="10" fill="#fff" stroke="#e0e0e0" stroke-width="1"/>
+  <rect x="30" y="296" width="242" height="5" rx="5" fill="#eab308"/>
+  <rect x="30" y="299" width="242" height="2" fill="#eab308"/>
+  <rect x="192" y="306" width="68" height="16" rx="4" fill="#fefce8"/>
+  <text class="badge" x="226" y="317" text-anchor="middle" fill="#854d0e">vMotion 필요</text>
+  <text class="tag" x="44" y="316">LOAD BALANCING</text>
+  <text class="title" x="44" y="333">DRS</text>
+  <line x1="30" y1="342" x2="272" y2="342" stroke="#f0f0f0" stroke-width="1"/>
+  <text class="prob" x="44" y="360">✕  특정 Host에 부하 집중</text>
+  <text class="sol"  x="44" y="378">✓  CPU·Mem 분석 → vMotion 자동 실행</text>
+  <text class="sol"  x="44" y="394">✓  관리자 개입 없이 균형 유지</text>
+  <text x="44" y="414" font-size="10" fill="#aaa">VM 생성마다 클러스터 전체</text>
+  <text x="44" y="428" font-size="10" fill="#aaa">자원 분산 자동화</text>
+
+  <!-- Card 5: NFS -->
+  <rect x="289" y="296" width="242" height="176" rx="10" fill="#fff" stroke="#e0e0e0" stroke-width="1"/>
+  <rect x="289" y="296" width="242" height="5" rx="5" fill="#8b5cf6"/>
+  <rect x="289" y="299" width="242" height="2" fill="#8b5cf6"/>
+  <text class="tag" x="303" y="316">PERSISTENCE</text>
+  <text class="title" x="303" y="333">NFS</text>
+  <line x1="289" y1="342" x2="531" y2="342" stroke="#f0f0f0" stroke-width="1"/>
+  <text class="prob" x="303" y="360">✕  컨테이너 재시작 = 로그 유실</text>
+  <text class="sol"  x="303" y="378">✓  PostgreSQL pgdata → NFS 마운트</text>
+  <text class="sol"  x="303" y="394">✓  VM 장애 시에도 로그 영속 보장</text>
+  <text x="303" y="414" font-size="10" fill="#aaa">LogDB Docker 컨테이너의</text>
+  <text x="303" y="428" font-size="10" fill="#aaa">데이터 디렉토리를 외부 NFS로 연결</text>
+
+  <!-- Card 6: Network Segmentation (UPDATED) -->
+  <rect x="548" y="296" width="242" height="250" rx="10" fill="#fff" stroke="#e0e0e0" stroke-width="1"/>
+  <rect x="548" y="296" width="242" height="5" rx="5" fill="#f97316"/>
+  <rect x="548" y="299" width="242" height="2" fill="#f97316"/>
+  <text class="tag" x="562" y="316">NETWORK</text>
+  <text class="title" x="562" y="333">Network Segmentation</text>
+  <line x1="548" y1="342" x2="790" y2="342" stroke="#f0f0f0" stroke-width="1"/>
+  <text class="prob" x="562" y="360">✕  트래픽 혼재 → 대역폭 경합</text>
+  <text class="sol"  x="562" y="378">✓  역할별 VLAN 분리 + 전용 vSwitch</text>
+
+  <!-- vSwitch0 mini diagram -->
+  <rect x="562" y="390" width="214" height="88" rx="6" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="0.8"/>
+  <text class="vswitch-label" x="573" y="403">vSwitch0  —  VLAN 분리</text>
+
+  <!-- VLAN chips row 1 -->
+  <rect x="568" y="408" width="42" height="14" rx="3" fill="#ef4444"/>
+  <text class="vlan-label" x="589" y="418" text-anchor="middle">VLAN 10</text>
+  <rect x="614" y="408" width="42" height="14" rx="3" fill="#f59e0b"/>
+  <text class="vlan-label" x="635" y="418" text-anchor="middle">VLAN 20</text>
+  <rect x="660" y="408" width="42" height="14" rx="3" fill="#22c55e"/>
+  <text class="vlan-label" x="681" y="418" text-anchor="middle">VLAN 30</text>
+  <rect x="706" y="408" width="42" height="14" rx="3" fill="#a855f7"/>
+  <text class="vlan-label" x="727" y="418" text-anchor="middle">VLAN 40</text>
+
+  <!-- port group labels row 1 -->
+  <text class="vs-port-text" x="589" y="432" text-anchor="middle" fill="#666">Internet</text>
+  <text class="vs-port-text" x="635" y="432" text-anchor="middle" fill="#666">NTP</text>
+  <text class="vs-port-text" x="681" y="432" text-anchor="middle" fill="#666">Shared</text>
+  <text class="vs-port-text" x="727" y="432" text-anchor="middle" fill="#666">VM-User</text>
+
+  <!-- VLAN chips row 2 -->
+  <rect x="568" y="442" width="42" height="14" rx="3" fill="#06b6d4"/>
+  <text class="vlan-label" x="589" y="452" text-anchor="middle">VLAN 50</text>
+  <rect x="614" y="442" width="42" height="14" rx="3" fill="#ec4899"/>
+  <text class="vlan-label" x="635" y="452" text-anchor="middle">VLAN 60</text>
+  <rect x="660" y="442" width="42" height="14" rx="3" fill="#64748b"/>
+  <text class="vlan-label" x="681" y="452" text-anchor="middle">VLAN 20</text>
+
+  <!-- port group labels row 2 -->
+  <text class="vs-port-text" x="589" y="466" text-anchor="middle" fill="#666">vSAN</text>
+  <text class="vs-port-text" x="635" y="466" text-anchor="middle" fill="#666">LogDB</text>
+  <text class="vs-port-text" x="681" y="466" text-anchor="middle" fill="#666">Mgmt</text>
+
+  <!-- vSwitch1 mini block -->
+  <rect x="562" y="488" width="214" height="36" rx="6" fill="#fff7ed" stroke="#fed7aa" stroke-width="0.8"/>
+  <text class="vswitch-label" x="573" y="501">vSwitch1  —  vMotion 전용</text>
+  <rect x="668" y="494" width="96" height="14" rx="3" fill="#f97316"/>
+  <text class="vlan-label" x="716" y="504" text-anchor="middle">MTU 9000 Jumbo</text>
+
+  <!-- reason -->
+  <text x="562" y="536" font-size="9.5" fill="#888">물리 환경 1스위치 가정 → 비용·복잡도 최소화</text>
+
+  <!-- Footer line -->
+  <line x1="30" y1="547" x2="790" y2="547" stroke="#e0e0e0" stroke-width="0.8"/>
+  <text x="30" y="557" font-size="9" fill="#bbb">FWS — Infrastructure Design · Section 6</text>
+</svg>
